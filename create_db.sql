@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS track_deliveries (
     album_stock_id SERIAL NOT NULL ,
     amount int,
     delivery_date timestamp NOT NULL
-  
+
 );
 
 

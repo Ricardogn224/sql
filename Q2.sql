@@ -1,27 +1,14 @@
-CREATE OR REPLACE FUNCTION
-public.ADD_ALBUM(NAME VARCHAR(128))
- RETURNS boolean
- LANGUAGE plpgsql
- STRICT
- AS $function$
- DECLARE
- v_id_album int;
-
- BEGIN
-  -- L'artiste existe t'il ?
-  SELECT NAME 
-  FROM album
-  WHERE name = NAME;
-
-  -- Sinon on le crée :
-  IF NOT FOUND THEN
-    INSERT INTO album (name)
-    VALUES (NAME)
-    RETURNING id INTO v_id_album;
-  END IF;
-
-  return v_id_album;
-
-END;
-$function$ ;
+CREATE OR REPLACE FUNCTION ADD_ALBUM(NEW_ALBUM VARCHAR(128))
 RETURNS boolean
+AS
+$$
+BEGIN
+  IF EXISTS (SELECT FROM album a WHERE a.name = NEW_ALBUM) THEN
+    RETURN FALSE;
+  ELSE
+    INSERT INTO album (name)
+    VALUES (NEW_ALBUM);
+    RETURN TRUE;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
