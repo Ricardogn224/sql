@@ -14,9 +14,13 @@ BEGIN
         RETURN resultat;
     END IF;
 
-    IF SEGONDE >0 THEN
+    IF reste >10 THEN
 
         SELECT CONCAT(CAST(ROUND(SEGONDE / 60 ) AS CHAR(4)), ':' , CAST( (ROUND(SEGONDE%60))  AS CHAR(4))) INTO resultat;
+        RETURN resultat;
+    END IF;
+    IF reste < 10 THEN
+        SELECT CONCAT(CAST(ROUND(SEGONDE / 60 ) AS CHAR(4)), ':' ,'0', CAST( (ROUND(SEGONDE%60))  AS CHAR(4))) INTO resultat;
         RETURN resultat;
     END IF;
 END;
@@ -26,3 +30,8 @@ $$ LANGUAGE plpgsql;
 SELECT  DURATION_TO_STRING(1008);
 SELECT  DURATION_TO_STRING(8);
 SELECT  DURATION_TO_STRING(6008);
+
+DO $$
+BEGIN
+  RAISE NOTICE 'my message';
+END; $$;
