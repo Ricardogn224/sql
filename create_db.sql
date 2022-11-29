@@ -24,10 +24,10 @@ CREATE TABLE IF NOT EXISTS album(
 
 CREATE TABLE IF NOT EXISTS track_deliveries (
     id SERIAL PRIMARY KEY , 
-    album_stock_id SERIAL NOT NULL ,
+    album_stock_id  NOT NULL ,
     amount int,
     delivery_date timestamp NOT NULL
-
+    CONSTRAINT FK_album_stock_id FOREIGN KEY (album_stock_id) REFERENCES album_stock(id) 
 );
 
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS album_rent(
 CREATE TABLE IF NOT EXISTS album_stock (
     id SERIAL PRIMARY KEY,
     album_id SERIAL,
-    stock int,
+    stock int CHECK (stock > 0),
     CONSTRAINT FK_album FOREIGN KEY (album_id) REFERENCES album(id) 
 );
 
